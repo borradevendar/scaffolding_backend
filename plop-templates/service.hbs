@@ -1,0 +1,38 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { {{pascalCase module}} } from './{{module}}.model';
+import { Create{{pascalCase module}}Dto, Update{{pascalCase module}}Dto } from './dto';
+
+@Injectable()
+export class {{pascalCase module}}Service {
+  constructor(
+    @InjectModel({{pascalCase module}})
+    private readonly model: typeof {{pascalCase module}},
+  ) {}
+
+  create(dto: Create{{pascalCase module}}Dto) {
+    return this.model.create(dto);
+  }
+
+  findAll() {
+    return this.model.findAll();
+  }
+
+  async findOne(id: number) {
+    const item = await this.model.findByPk(id);
+    if (!item) throw new NotFoundException('{{pascalCase module}} not found');
+    return item;
+  }
+
+  async update(id: number, dto: Update{{pascalCase module}}Dto) {
+    const item = await this.findOne(id);
+    await item.update(dto);
+    return item;
+  }
+
+  async remove(id: number) {
+    const item = await this.findOne(id);
+    await item.destroy();
+    return { message: 'Deleted successfully' };
+  }
+}

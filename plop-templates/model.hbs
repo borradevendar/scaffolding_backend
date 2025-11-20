@@ -1,0 +1,23 @@
+import { Table, Column, Model, DataType } from 'sequelize-typescript';
+
+export interface {{pascalCase module}}Attributes {
+  name: string;
+  description?: string;
+}
+
+export interface {{pascalCase module}}CreationAttributes
+  extends Omit<{{pascalCase module}}Attributes, 'id'> {}
+
+@Table({
+  tableName: '{{table}}',
+  timestamps: true,
+})
+export class {{pascalCase module}} 
+  extends Model<{{pascalCase module}}Attributes, {{pascalCase module}}CreationAttributes> {
+
+  @Column({ type: DataType.STRING, allowNull: false })
+  name: string;
+
+  @Column({ type: DataType.STRING })
+  description: string;
+}
